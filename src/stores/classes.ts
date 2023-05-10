@@ -6,8 +6,8 @@ import type { StudentClass, StudentClassFirebase, Task } from 'src/models';
 export const useClassesStore = defineStore('classes', {
   state: () => ({
     classesAvailable: [] as StudentClass[],
-    selectedDate: '20230509',
-    tasks: {} as { [date: string]: Task[] },
+    selectedDate: dayjs().format('YYYYMMDD'),
+    tasks: [] as Task[],
   }),
   getters: {
     todaysClasses(state): StudentClass[] & { tasks: Task[] }[] {
@@ -17,17 +17,15 @@ export const useClassesStore = defineStore('classes', {
         )
         .map((studentClass) => ({
           ...studentClass,
-          tasks: this.todaysTasks.filter(
-            (task) => task.classId === studentClass.id
-          ),
+          tasks: this.tasks.filter((task) => task.classId === studentClass.id),
         }));
     },
-    todaysTasks(state) {
-      return state.tasks[state.selectedDate] || [];
+    selectedDateFormatted(state) {
+      return dayjs(state.selectedDate).format('M/D/YYYY');
     },
   },
   actions: {
-    completeTask(classId: string, taskId: string, isComplete: boolean) {
+    completeTask(taskId: string, isComplete: boolean) {
       const db = getDatabase();
       const taskCompleteRef = ref(
         db,
@@ -45,8 +43,8 @@ export const useClassesStore = defineStore('classes', {
         };
       });
     },
-    setTasks(date: string, tasks: Task[]) {
-      this.tasks[date] = tasks;
+    setTasks(tasks: Task[]) {
+      this.tasks = tasks;
     },
   },
 });

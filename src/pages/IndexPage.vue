@@ -1,6 +1,6 @@
 <template>
   <q-page class="q-mx-xl">
-    <h2>Jasmine's Day {{ date }}</h2>
+    <h2>Jasmine's Day <DayPicker /></h2>
     <div class="container">
       <ClassAssignment
         :class="{ 'q-mt-md': index > 0 }"
@@ -18,18 +18,14 @@
 </template>
 
 <script setup lang="ts">
-import dayjs from 'dayjs';
-import { computed, ref } from 'vue';
-import { StudentClass } from 'src/models';
-import ClassAssignment from 'components/ClassAssignment.vue';
 import { storeToRefs } from 'pinia';
+import { ref } from 'vue';
+import { StudentClass } from 'src/models';
 import { useClassesStore } from 'src/stores/classes';
+import ClassAssignment from 'components/ClassAssignment.vue';
+import DayPicker from 'src/components/DayPicker.vue';
 
 const { todaysClasses } = storeToRefs(useClassesStore());
-
-const date = computed(() => {
-  return dayjs('20230509').format('MM/DD/YYYY');
-});
 
 const studentClasses = ref<StudentClass[]>([
   {

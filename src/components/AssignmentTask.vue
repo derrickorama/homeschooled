@@ -46,6 +46,6 @@ const props = defineProps<{
 const classesStore = useClassesStore();
 
 function completeTask() {
-  classesStore.completeTask(props.classId, props.id, !props.complete);
+  classesStore.completeTask(props.id, !props.complete);
 }
 </script>
