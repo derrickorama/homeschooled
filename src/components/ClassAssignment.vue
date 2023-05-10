@@ -1,5 +1,10 @@
 <template>
-  <q-card class="q-pb-md">
+  <q-card
+    :class="{
+      'q-pb-none': !allTasksComplete || showTasks,
+      'q-pb-md': allTasksComplete && !showTasks,
+    }"
+  >
     <q-card-section class="row justify-between q-pb-none">
       <div>
         <div class="text-h5">{{ name }}</div>

@@ -9,6 +9,9 @@
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
 
 const { configure } = require('quasar/wrappers');
+require('dotenv').config();
+
+const FIREBASE_CONFIG = require(process.env.FIREBASE_CREDENTIALS);
 
 module.exports = configure(function (/* ctx */) {
   return {
@@ -27,7 +30,7 @@ module.exports = configure(function (/* ctx */) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
-    boot: ['axios'],
+    boot: ['axios', 'firebase', 'classes'],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
     css: ['app.scss'],
@@ -62,7 +65,9 @@ module.exports = configure(function (/* ctx */) {
 
       // publicPath: '/',
       // analyze: true,
-      // env: {},
+      env: {
+        FIREBASE_CONFIG,
+      },
       // rawDefine: {}
       // ignorePublicFolder: true,
       // minify: false,

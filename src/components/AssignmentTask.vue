@@ -1,19 +1,16 @@
 <template>
-  <q-card
-    class="row items-start"
+  <div
+    class="row"
     :class="{
-      'q-mt-md': index > 0,
       'bg-positive': complete,
+      'items-center': complete,
+      'items-start': !complete,
       'opacity-50': complete,
     }"
   >
-    <q-checkbox
-      class="q-mr-md"
-      :model-value="complete"
-      @click="$emit('complete', { taskIndex: index, isComplete: !complete })"
-    />
-    <div class="column q-py-sm">
-      <div class="text-bold q-py-xs">{{ title }}</div>
+    <q-checkbox class="q-mr-md" :model-value="complete" @click="completeTask" />
+    <div class="column" :class="{ 'q-pt-sm': !complete }">
+      <div class="text-bold">{{ name }}</div>
       <div v-if="!complete">
         <iframe
           v-if="type === 'video'"
@@ -30,17 +27,25 @@
         </div>
       </div>
     </div>
-  </q-card>
+  </div>
 </template>
 
 <script setup lang="ts">
-defineProps<{
+import { useClassesStore } from 'stores/classes';
+
+const props = defineProps<{
+  classId: string;
   complete: boolean;
-  title: string;
+  id: string;
+  name: string;
   type: 'video' | 'link' | 'simple';
   url?: string;
   index: number;
 }>();
 
-defineEmits(['complete']);
+const classesStore = useClassesStore();
+
+function completeTask() {
+  classesStore.completeTask(props.classId, props.id, !props.complete);
+}
 </script>

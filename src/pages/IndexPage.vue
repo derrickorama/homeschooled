@@ -1,10 +1,10 @@
 <template>
   <q-page class="q-mx-xl">
-    <h2>Jasmine's Day 53</h2>
+    <h2>Jasmine's Day {{ date }}</h2>
     <div class="container">
       <ClassAssignment
         :class="{ 'q-mt-md': index > 0 }"
-        v-for="(studentClass, index) in studentClasses"
+        v-for="(studentClass, index) in todaysClasses"
         :key="index"
         :id="studentClass.id"
         :class-number="index + 1"
@@ -18,47 +18,25 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import dayjs from 'dayjs';
+import { computed, ref } from 'vue';
 import { StudentClass } from 'src/models';
 import ClassAssignment from 'components/ClassAssignment.vue';
+import { storeToRefs } from 'pinia';
+import { useClassesStore } from 'src/stores/classes';
+
+const { todaysClasses } = storeToRefs(useClassesStore());
+
+const date = computed(() => {
+  return dayjs('20230509').format('MM/DD/YYYY');
+});
 
 const studentClasses = ref<StudentClass[]>([
-  {
-    id: '1',
-    name: "Children's Bible Lessons",
-    description: 'Daily Bible lessons for elementary students.',
-    tasks: [
-      {
-        complete: false,
-        title: "God's Story: Mary",
-        type: 'video',
-        url: 'https://www.youtube.com/embed/i2YBd_88vRQ',
-      },
-      {
-        complete: false,
-        title: 'Mary Printable',
-        type: 'link',
-        url: 'https://leapoffaithcrafting.com/wp-content/uploads/2021/10/Christmas-Nativity-08-735x951.jpg.webp',
-      },
-    ],
-  },
   {
     id: '3',
     name: '1st Grade Language Arts',
     description: 'First grade language arts.',
     tasks: [
-      {
-        complete: false,
-        title:
-          'Supported Practice: PA: Phoneme Isolation with m, r, h, s, d, t, and short a',
-        type: 'link',
-        url: 'https://www.time4learning.com',
-      },
-      {
-        complete: false,
-        title: 'Lowercase G',
-        type: 'simple',
-      },
       {
         complete: false,
         title: 'Lowercase O',
@@ -116,7 +94,7 @@ const studentClasses = ref<StudentClass[]>([
   {
     id: '5',
     name: 'Reading Eggs',
-    description: 'Common words that schools expect kids to recognize instantly',
+    description: 'An online reading program that helps children learn to read',
     tasks: [
       {
         complete: false,
