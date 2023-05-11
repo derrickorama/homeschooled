@@ -30,7 +30,7 @@
       class="column q-pt-sm"
       :class="{ 'q-pb-none': classDone }"
     >
-      <q-banner v-if="!tasks.length" class="bg-info text-cyan-10">
+      <q-banner v-if="!tasks.length" class="bg-info text-purple-10">
         No tasks were added for this class today.
       </q-banner>
       <AssignmentTask

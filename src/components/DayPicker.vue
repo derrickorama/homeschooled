@@ -1,10 +1,11 @@
 <template>
-  <q-btn color="primary" padding="sm" size="25px">
+  <q-btn color="dark" flat padding="sm" size="35px">
     <q-icon class="q-mr-sm" name="event" />
     {{ selectedDateFormatted }}
-    <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+    <q-popup-proxy cover transition-hide="scale" transition-show="scale">
       <q-date
         v-model="selectedDate"
+        color="secondary"
         mask="YYYYMMDD"
         @update:model-value="selectedDate = $event"
       />
