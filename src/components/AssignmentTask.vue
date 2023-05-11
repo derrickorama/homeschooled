@@ -3,28 +3,34 @@
     class="row"
     :class="{
       'bg-positive': complete,
-      'items-center': complete,
-      'items-start': !complete,
+      'items-center': complete && type === 'simple',
+      'items-start': !complete || type !== 'simple',
       'opacity-50': complete,
+      'q-py-sm': complete && type === 'simple',
     }"
   >
     <q-checkbox class="q-mr-md" :model-value="complete" @click="completeTask" />
-    <div class="column" :class="{ 'q-pt-sm': !complete }">
+    <div
+      class="column"
+      :class="{
+        'q-pt-sm': !complete || type !== 'simple',
+        'q-pb-md': type === 'video',
+        'q-pb-sm': type === 'link',
+      }"
+    >
       <div class="text-bold">{{ name }}</div>
-      <div v-if="!complete">
-        <iframe
-          v-if="type === 'video'"
-          width="560"
-          height="315"
-          :src="url"
-          title="YouTube video player"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen
-        ></iframe>
-        <div v-if="type === 'link'">
-          <a :href="url" target="_blank">{{ url }}</a>
-        </div>
+      <iframe
+        v-if="type === 'video'"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+        frameborder="0"
+        height="315"
+        :src="url"
+        title="YouTube video player"
+        width="560"
+      ></iframe>
+      <div v-if="type === 'link'">
+        <a :href="url" target="_blank">{{ url }}</a>
       </div>
     </div>
   </div>

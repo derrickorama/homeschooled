@@ -1,4 +1,4 @@
-import { get, getDatabase, onValue, ref } from 'firebase/database';
+import { getDatabase, onValue, ref } from 'firebase/database';
 import { storeToRefs } from 'pinia';
 import { watch } from 'vue';
 import { boot } from 'quasar/wrappers';
@@ -15,14 +15,7 @@ export default boot(async () => {
     classesStore.setClasses(Object.values(data));
   });
 
-  async function updateTasks() {
-    const taskRef = ref(db, `/tasks/${selectedDate.value}`);
-    const snapshot = await get(taskRef);
-    const data = snapshot.val();
-    classesStore.setTasks(data ? Object.values(data) : []);
-  }
+  classesStore.getTasks();
 
-  updateTasks();
-
-  watch(selectedDate, updateTasks);
+  watch(selectedDate, () => classesStore.getTasks());
 });
