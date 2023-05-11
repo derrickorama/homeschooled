@@ -33,7 +33,7 @@
       <q-banner v-if="!tasks.length" class="bg-info text-purple-10">
         No tasks were added for this class today.
       </q-banner>
-      <AssignmentTask
+      <LessonTask
         v-for="(task, index) in tasks"
         :key="index"
         v-bind="{ ...task, index }"
@@ -51,7 +51,7 @@ import { Dialog } from 'quasar';
 import { computed, ref } from 'vue';
 import { Task } from 'src/models';
 import AddTaskDialog from 'components/AddTaskDialog.vue';
-import AssignmentTask from 'components/AssignmentTask.vue';
+import LessonTask from 'components/LessonTask.vue';
 
 const props = defineProps<{
   id: string;
