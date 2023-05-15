@@ -64,9 +64,9 @@ defineEmits(['complete']);
 
 const showTasks = ref(false);
 
-const allTasksComplete = computed(() => {
-  return props.tasks.every(({ complete }) => complete);
-});
+const allTasksComplete = computed(() =>
+  props.tasks.every(({ complete }) => complete)
+);
 
 const classDone = computed(() => allTasksComplete.value && props.tasks.length);
 

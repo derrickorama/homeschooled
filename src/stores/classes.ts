@@ -56,24 +56,20 @@ export const useClassesStore = defineStore('classes', {
       const data = snapshot.val();
       this.setTasks(
         data
-          ? Object.entries(data).map(([id, task]) => {
-              return {
-                ...(<Task>task),
-                id,
-              };
-            })
+          ? Object.entries(data).map(([id, task]) => ({
+              ...(<Task>task),
+              id,
+            }))
           : []
       );
     },
     setClasses(studentClasses: StudentClassFirebase[]) {
-      this.classesAvailable = studentClasses.map((studentClass) => {
-        return {
-          ...studentClass,
-          days: (studentClass.days || '')
-            .split(',')
-            .map((stringValue) => parseInt(stringValue)),
-        };
-      });
+      this.classesAvailable = studentClasses.map((studentClass) => ({
+        ...studentClass,
+        days: (studentClass.days || '')
+          .split(',')
+          .map((stringValue) => parseInt(stringValue)),
+      }));
     },
     setTasks(tasks: Task[]) {
       this.tasks = tasks;

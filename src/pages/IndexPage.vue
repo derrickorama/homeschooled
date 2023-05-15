@@ -24,9 +24,3 @@ import DayPicker from 'src/components/DayPicker.vue';
 
 const { todaysClasses } = storeToRefs(useClassesStore());
 </script>
-
-<style scoped lang="scss">
-.container {
-  max-width: 1200px;
-}
-</style>
