@@ -103,7 +103,11 @@ const studentClass = computed(() =>
 
 function checkUrl() {
   if (type.value === 'video') {
-    const youTubeId = url.value.match(/.*\/watch\?v=([^&]+)/);
+    let youTubeId = url.value.match(/.*\/watch\?v=([^&]+)/);
+    if (youTubeId === null) {
+      youTubeId = url.value.match(/youtu\.be\/([^&]+)/);
+    }
+
     if (youTubeId !== null) {
       url.value = `https://www.youtube.com/embed/${youTubeId[1]}`;
     }
