@@ -104,5 +104,6 @@ module.exports = {
         alphabetical: true,
       },
     ],
+    'arrow-body-style': 'error',
   },
 };
