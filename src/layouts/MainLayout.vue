@@ -13,20 +13,7 @@
     </q-header>
 
     <q-drawer v-model="rightDrawerOpen" elevated show-if-above side="right">
-      <q-list>
-        <q-item v-ripple clickable :to="{ name: 'main' }">
-          <q-item-section avatar>
-            <q-icon name="task" />
-          </q-item-section>
-          <q-item-section> Today's Assignments </q-item-section>
-        </q-item>
-        <q-item v-ripple clickable to="/classes">
-          <q-item-section avatar>
-            <q-icon name="import_contacts" />
-          </q-item-section>
-          <q-item-section> Classes </q-item-section>
-        </q-item>
-      </q-list>
+      <MainNavigation />
     </q-drawer>
 
     <q-page-container>
@@ -37,6 +24,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import MainNavigation from 'components/MainNavigation.vue';
 
 const rightDrawerOpen = ref(false);
 
