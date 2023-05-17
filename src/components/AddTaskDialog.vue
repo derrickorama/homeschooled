@@ -2,9 +2,26 @@
   <q-dialog v-model="show" :persistent="isAdding">
     <q-card style="width: 700px; max-width: 80vw">
       <q-form @submit="add">
-        <q-card-section>
+        <q-card-section class="q-pb-none">
           <div class="text-h6">Add Task: {{ studentClass?.name }}</div>
         </q-card-section>
+
+        <q-card-section>
+          <div class="q-mb-xs text-subtitle1 text-caption text-grey-9">
+            Common Tasks
+          </div>
+          <div v-if="studentClass?.commonTasks?.length">
+            <q-btn
+              v-for="(task, index) in studentClass?.commonTasks"
+              :key="index"
+              color="primary"
+              :label="task.name"
+              @click="useCommonTask(task.name, task.type, task.url)"
+            />
+          </div>
+        </q-card-section>
+
+        <q-separator class="q-mt-sm q-mb-lg" />
 
         <q-card-section class="q-py-none">
           <q-btn-toggle
@@ -81,6 +98,7 @@ import { storeToRefs } from 'pinia';
 import { Ref, computed, ref } from 'vue';
 import { useClassesStore } from 'src/stores/classes';
 import { type QInput } from 'quasar';
+import { TaskDescription } from 'src/models';
 
 const props = defineProps<{ classId: string }>();
 
@@ -147,5 +165,18 @@ async function add() {
     isAdding.value = false;
     show.value = false;
   }
+}
+
+function useCommonTask(
+  taskName: string,
+  taskType: TaskDescription['type'],
+  taskUrl?: string
+) {
+  name.value = taskName;
+  type.value = taskType;
+  if (taskUrl) {
+    url.value = taskUrl;
+  }
+  add();
 }
 </script>

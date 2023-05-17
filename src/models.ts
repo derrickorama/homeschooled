@@ -1,27 +1,32 @@
 import { Dayjs } from 'dayjs';
 
 export interface StudentClassFirebase {
-  id: string;
-  name: string;
+  commonTasks: TaskDescription[];
   days: string;
   description: string;
+  id: string;
+  name: string;
 }
 
 export interface StudentClass {
-  id: string;
-  name: string;
+  commonTasks: TaskDescription[];
   days: number[];
   description: string;
+  id: string;
+  name: string;
 }
 
-export interface Task {
+export interface TaskDescription {
+  name: string;
+  type: 'video' | 'link' | 'simple';
+  url?: string;
+}
+
+export interface Task extends TaskDescription {
   classId: string;
   complete: boolean;
   date: Dayjs;
   id: string;
-  name: string;
-  type: 'video' | 'link' | 'simple';
-  url?: string;
 }
 
 export interface TaskWithIndex extends Task {

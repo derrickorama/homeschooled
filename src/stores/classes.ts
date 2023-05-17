@@ -66,6 +66,9 @@ export const useClassesStore = defineStore('classes', {
     setClasses(studentClasses: StudentClassFirebase[]) {
       this.classesAvailable = studentClasses.map((studentClass) => ({
         ...studentClass,
+        commonTasks: studentClass.commonTasks
+          ? Object.values(studentClass.commonTasks)
+          : [],
         days: (studentClass.days || '')
           .split(',')
           .map((stringValue) => parseInt(stringValue)),
