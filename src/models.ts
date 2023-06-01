@@ -1,5 +1,16 @@
 import { Dayjs } from 'dayjs';
 
+export interface StudentFirebase {
+  name: string;
+  classes: string;
+}
+
+export interface Student {
+  id: string;
+  name: string;
+  classIds: string[];
+}
+
 export interface StudentClassFirebase {
   commonTasks: TaskDescription[];
   days: string;

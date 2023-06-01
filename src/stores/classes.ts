@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { get, getDatabase, push, ref, set } from 'firebase/database';
 import { defineStore } from 'pinia';
 import type { StudentClass, StudentClassFirebase, Task } from 'src/models';
+import { useStudentsStore } from './students';
 
 export const useClassesStore = defineStore('classes', {
   state: () => ({
@@ -10,8 +11,15 @@ export const useClassesStore = defineStore('classes', {
     tasks: [] as Task[],
   }),
   getters: {
-    todaysClasses(state): StudentClass[] & { tasks: Task[] }[] {
-      return state.classesAvailable
+    classesById(state) {
+      const classesById = {} as { [id: string]: StudentClass };
+      state.classesAvailable.forEach((studentClass) => {
+        classesById[studentClass.id] = studentClass;
+      });
+      return classesById;
+    },
+    todaysClasses(): StudentClass[] & { tasks: Task[] }[] {
+      return this.currentStudentClasses
         .filter((studentClass) =>
           studentClass.days.includes(dayjs(this.selectedDate).day())
         )
@@ -22,6 +30,13 @@ export const useClassesStore = defineStore('classes', {
     },
     selectedDateFormatted(state) {
       return dayjs(state.selectedDate).format('M/D/YYYY');
+    },
+    currentStudentClasses(state) {
+      const { currentStudent } = useStudentsStore();
+      return state.classesAvailable.filter(({ id }) => {
+        console.log('id:', id);
+        return currentStudent.classIds.includes(id);
+      });
     },
   },
   actions: {

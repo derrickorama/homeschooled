@@ -1,6 +1,8 @@
 <template>
   <q-page class="q-mx-xl">
-    <h2>Jasmine's Day <DayPicker /></h2>
+    <h2 class="text-h2">
+      <span>{{ currentStudent?.name }}'s Day</span> <DayPicker />
+    </h2>
     <div class="container">
       <ClassLesson
         v-for="(studentClass, index) in todaysClasses"
@@ -21,6 +23,9 @@ import { storeToRefs } from 'pinia';
 import { useClassesStore } from 'src/stores/classes';
 import ClassLesson from 'components/ClassLesson.vue';
 import DayPicker from 'src/components/DayPicker.vue';
+import { useStudentsStore } from 'src/stores/students';
+
+const { currentStudent } = storeToRefs(useStudentsStore());
 
 const { todaysClasses } = storeToRefs(useClassesStore());
 </script>

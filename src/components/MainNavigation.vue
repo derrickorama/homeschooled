@@ -12,5 +12,11 @@
       </q-item-section>
       <q-item-section> Classes </q-item-section>
     </q-item>
+    <q-item v-ripple clickable to="/students">
+      <q-item-section avatar>
+        <q-icon name="group" />
+      </q-item-section>
+      <q-item-section> Students </q-item-section>
+    </q-item>
   </q-list>
 </template>
