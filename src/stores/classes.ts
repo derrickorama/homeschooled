@@ -33,10 +33,9 @@ export const useClassesStore = defineStore('classes', {
     },
     currentStudentClasses(state) {
       const { currentStudent } = useStudentsStore();
-      return state.classesAvailable.filter(({ id }) => {
-        console.log('id:', id);
-        return currentStudent.classIds.includes(id);
-      });
+      return state.classesAvailable.filter(({ id }) =>
+        currentStudent?.classIds.includes(id)
+      );
     },
   },
   actions: {
@@ -56,7 +55,6 @@ export const useClassesStore = defineStore('classes', {
     },
     async completeTask(taskId: string, isComplete: boolean) {
       const db = getDatabase();
-      console.log(`tasks/${this.selectedDate}/${taskId}/complete`);
       const taskCompleteRef = ref(
         db,
         `tasks/${this.selectedDate}/${taskId}/complete`
@@ -88,6 +86,9 @@ export const useClassesStore = defineStore('classes', {
           .split(',')
           .map((stringValue) => parseInt(stringValue)),
       }));
+    },
+    setDate(date: string) {
+      this.selectedDate = date;
     },
     setTasks(tasks: Task[]) {
       this.tasks = tasks;

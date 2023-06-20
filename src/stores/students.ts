@@ -2,29 +2,43 @@ import { defineStore } from 'pinia';
 import type { Student, StudentClass, StudentFirebase } from 'src/models';
 import { useClassesStore } from './classes';
 
+type StudentObject = {
+  [studentId: string]: Student & { classes: StudentClass[] };
+};
+
 export const useStudentsStore = defineStore('students', {
-  state: () => ({
-    currentStudentIndex: 1,
-    isLoadingStudents: false,
-    studentsAvailable: [] as Student[],
-  }),
+  state: () => {
+    const currentStudentId =
+      localStorage.getItem('students/currentStudentId') || '';
+
+    return {
+      currentStudentId,
+      isLoadingStudents: false,
+      studentsAvailable: [] as Student[],
+    };
+  },
   getters: {
-    currentStudent(state): Student {
-      return this.students[state.currentStudentIndex];
+    currentStudent(state): Student | undefined {
+      return this.students[state.currentStudentId];
     },
-    students(): Array<Student & { classes: StudentClass[] }> {
+    students(): StudentObject {
+      const students = {} as StudentObject;
       const classesStore = useClassesStore();
-      return this.studentsAvailable.map((student) => ({
-        ...student,
-        classes: student.classIds
-          .map((classId) => classesStore.classesById[classId])
-          .filter((studentClass) => studentClass),
-      }));
+
+      this.studentsAvailable.forEach((student) => {
+        students[student.id] = {
+          ...student,
+          classes: student.classIds
+            .map((classId) => classesStore.classesById[classId])
+            .filter((studentClass) => studentClass),
+        };
+      });
+
+      return students;
     },
   },
   actions: {
     async setStudents(students: StudentFirebase[]) {
-      this.isLoadingStudents = true;
       this.studentsAvailable = Object.entries(students).map(
         ([id, studentData]) => ({
           ...studentData,
@@ -32,6 +46,14 @@ export const useStudentsStore = defineStore('students', {
           classIds: studentData.classes.split(','),
         })
       );
+
+      if (!this.currentStudent) {
+        this.selectStudent(this.studentsAvailable[0].id);
+      }
+    },
+    selectStudent(studentId: string) {
+      this.currentStudentId = studentId;
+      localStorage.setItem('students/currentStudentId', studentId);
     },
   },
 });
